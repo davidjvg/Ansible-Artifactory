@@ -1,0 +1,20 @@
+---
+# vars file for /home/daji/artifactory/roles/artifactory
+
+
+
+#artifactory_requirements:
+#  default: []
+#  Debian:
+#    - procps
+#    - net-tools
+
+
+
+artifactory_repo_url: deb https://jfrog.bintray.com/artifactory-debs bionic main
+artifactory_repo_key_url: https://bintray.com/user/downloadSubjectPublicKey?username=jfrog
+artifactory_version: cpp-ce
+#__jenkins_pkg_url: https://pkg.jenkins.io/debian/binary
+#jenkins_init_file: /etc/default/jenkins
+#jenkins_http_port_param: HTTP_PORT
+#jenkins_java_options_env_var: JAVA_ARGS
