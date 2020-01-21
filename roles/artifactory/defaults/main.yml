@@ -20,3 +20,5 @@ artifactory_file_store_dir: /data
 artifactory_flavour: ce
 
 artifactory_username: artifactory
+
+artifactory_password: "password"

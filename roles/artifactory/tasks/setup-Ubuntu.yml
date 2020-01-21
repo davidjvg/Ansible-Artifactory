@@ -3,21 +3,13 @@
 - name: 'create user to run artifactory'
   user:
     name: "{{ artifactory_username }}"
+    password: "{{ artifactory_password }}"
     home: /opt/artifactory/
     shell: /bin/bash
     system: true
   tags:
     - users
-    
-# tasks file for artifactory
-#- name: install requirements
-#  package:
-#    name: net-tools
-#    state: present
-#  register: artifactory_install_requirements
-#  until: artifactory_install_requirements is succeeded
-#  retries: 3
-
+  
 
 - name: Add the Apt key
   apt_key:
@@ -29,9 +21,6 @@
     repo: "{{ artifactory_repo_url }}"
     state: present
     update_cache: true
-
-
-
 
 
 
