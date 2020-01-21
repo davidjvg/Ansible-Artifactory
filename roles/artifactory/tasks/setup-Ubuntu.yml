@@ -19,16 +19,21 @@
 #  retries: 3
 
 
+- name: Add the Apt key
+  apt_key:
+    url: "{{ artifactory_repo_key_url }}"
+    state: present
+
 - name: 'verify presence of artifactory repo'
   apt_repository:
     repo: "{{ artifactory_repo_url }}"
     state: present
     update_cache: true
 
-- name: Add the Apt key
-  apt_key:
-    url: "{{ artifactory_repo_key_url }}"
-    state: present
+
+
+
+
 
 - name: Run the equivalent of "apt-get update" as a separate step
   apt:
