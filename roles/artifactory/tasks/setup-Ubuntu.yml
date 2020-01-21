@@ -1,14 +1,14 @@
 ---
 
-- name: 'create user to run artifactory'
-  user:
-    name: "{{ artifactory_username }}"
-    password: "{{ artifactory_password }}"
-    home: /opt/artifactory/
-    shell: /bin/bash
-    system: true
-  tags:
-    - users
+#- name: 'create user to run artifactory'
+#  user:
+#    name: "{{ artifactory_username }}"
+#    password: "{{ artifactory_password }}"
+#    home: /opt/artifactory/
+#    shell: /bin/bash
+#    system: true
+#  tags:
+#    - users
   
 
 - name: Add the Apt key
@@ -21,7 +21,6 @@
     repo: "{{ artifactory_repo_url }}"
     state: present
     update_cache: true
-
 
 
 - name: Run the equivalent of "apt-get update" as a separate step
@@ -38,6 +37,7 @@
   service:
     name: artifactory
     state: started
+    enabled: yes
 
   #- name: 'download artifactory'
   #unarchive:
