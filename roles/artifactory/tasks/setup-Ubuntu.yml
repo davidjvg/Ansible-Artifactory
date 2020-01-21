@@ -1,13 +1,13 @@
 ---
 
-#- name: 'create user to run artifactory'
-#  user:
-#    name: "{{ artifactory_username }}"
-#    home: /opt/artifactory/
-#    shell: /bin/bash
-#    system: true
-#  tags:
-#    - users
+- name: 'create user to run artifactory'
+  user:
+    name: "{{ artifactory_username }}"
+    home: /opt/artifactory/
+    shell: /bin/bash
+    system: true
+  tags:
+    - users
     
 # tasks file for artifactory
 #- name: install requirements
@@ -45,7 +45,10 @@
     name: jfrog-artifactory-{{ artifactory_version }}
     state: present
 
-
+- name: Start service if not started
+  service:
+    name: artifactory
+    state: started
 
   #- name: 'download artifactory'
   #unarchive:
