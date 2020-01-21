@@ -1,0 +1,19 @@
+---
+# vars file for /home/daji/artifactory/roles/artifactory
+
+
+
+#artifactory_requirements:
+#  default: []
+#  Debian:
+#    - procps
+#    - net-tools
+
+artifactory_zip: "https://dl.bintray.com/jfrog/artifactory/jfrog-artifactory-{{ artifactory_flavour }}-{{ artifactory_version }}.zip"
+artifactory_home: "{{ artifactory_download_directory }}/artifactory-{{ artifactory_flavour }}-{{ artifactory_version }}"
+#artifactory_repo_url: deb https://jfrog.bintray.com/artifactory-debs bionic main
+#artifactory_repo_key_url: https://bintray.com/user/downloadSubjectPublicKey?username=jfrog
+#artifactory_version: cpp-ce
+
+
+artifactory_exec: "{{ artifactory_home }}/bin/artifactoryctl start"
