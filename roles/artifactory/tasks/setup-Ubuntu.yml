@@ -9,53 +9,52 @@
 #    system: true
 #  tags:
 #    - users
-  
 
-- name: Add the Apt key
-  apt_key:
-    url: "{{ artifactory_repo_key_url }}"
+- name: create group for artifactory
+  group:
+    name: "{{ artifactory_group }}"
     state: present
 
-- name: 'verify presence of artifactory repo'
-  apt_repository:
-    repo: "{{ artifactory_repo_url }}"
-    state: present
-    update_cache: true
+- name: create user for artifactory
+  user:
+    name: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+    system: yes
+
+- name: ensure artifactory_download_directory exists
+  file:
+    path: "{{ artifactory_download_directory }}"
+    state: directory
+
+- name: download artifactory
+  unarchive:
+    src: "{{ artifactory_zip }}"
+    dest: "{{ artifactory_download_directory }}"
+    remote_src: yes
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+   # creates: "{{ artifactory_home }}"
+  register: downloadartifactory
+  until: downloadartifactory is succeeded
+  retries: 3
+  notify:
+    - restart artifactory
+
+- name: ensure artifactory_file_store_dir exists
+  file:
+    path: "{{ artifactory_file_store_dir }}"
+    state: directory
 
 
-- name: Run the equivalent of "apt-get update" as a separate step
-  apt:
-    update_cache: yes
+#- name: create artifactory service
+#  import_role:
+#    name: robertdebock.service
 
-- name: Install artifactory ce
-  apt:
-  # name: jfrog-artifactory-cpp-ce
-    name: jfrog-artifactory-{{ artifactory_version }}
-    state: present
+#- name: start and enable artifactory
+#  service:
+#    name: artifactory
+#    state: started
+#    enabled: yes
 
-- name: Start service if not started
-  service:
-    name: artifactory
-    state: started
-    enabled: yes
-
-  #- name: 'download artifactory'
-  #unarchive:
-  #  copy: no
-  #  src: "{{ artifactory_url }}"
-  #  dest: /opt/artifactory/
-  #  validate_certs: no
-  #retries: 3
-  #when: not artifactory_jarfile.stat.exists
-
-
-#- name: 'apt install prerequisites'
-#  apt:
-#    name: openssl
-#    state: present
-#    update_cache: yes
-#  retries: 3
-#  register: result
-#  until: result is succeeded
-
-
+- name: execute shell script to start it
+  shell: "{{ artifactory_exec }}"
